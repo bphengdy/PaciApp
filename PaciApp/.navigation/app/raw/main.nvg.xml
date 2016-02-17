@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iut.paci.tp4.EtageActivity"/>
+      <point      
+        x = "2228"      
+        y = "144"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iut.paci.paciapp.LoginActivity"/>
+      <point      
+        x = "1384"      
+        y = "48"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iut.paci.tp4.MapActivity"/>
+      <point      
+        x = "4"      
+        y = "0"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iut.paci.paciapp.ChatActivity"/>
+      <point      
+        x = "1188"      
+        y = "668"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iut.paci.tp4.TwoNodesActivity"/>
+      <point      
+        x = "368"      
+        y = "496"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/Destinataire"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:background="@color/grayFan" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:id="@+id/tv_Destinataire"
+            android:hint="Destinataire"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom tel"
+            android:id="@+id/tv_nomTel"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/chat_listView"
+        android:paddingTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/form"
+        android:layout_alignParentTop="true"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true">
+    </ListView>
+
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:background="@color/grayFan"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/chat_text"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:textColor="@color/colorWhite"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/chat_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:text="Envoyer"
+            android:onClick="btnSend" />
+
+    </LinearLayout>
+
+</RelativeLayout>

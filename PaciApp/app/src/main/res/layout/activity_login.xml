@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:id="@+id/imageView"
+        android:background="@drawable/cadena"
+        android:layout_gravity="center_horizontal" />
+
+<!--    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Identifiant"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/tv_identifiant"
+        android:textSize="20sp" />-->
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til_1">
+
+    <EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tf_identifiant"
+    android:layout_gravity="center_vertical" android:inputType="text"
+    android:hint="Nom d'utilisateur" />
+
+    </android.support.design.widget.TextInputLayout>
+<!--    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mot de passe"
+        android:id="@+id/tv_mdp"
+        android:textSize="20sp" />-->
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til_2">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tf_mdp"
+        android:hint="Mot de passe"
+        android:ems="10"
+        android:inputType="textPassword"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:id="@+id/bt_connexion"
+        android:layout_gravity="center_horizontal"
+        android:background="#2931c9"
+        android:onClick="Connexion" />
+
+</LinearLayout>

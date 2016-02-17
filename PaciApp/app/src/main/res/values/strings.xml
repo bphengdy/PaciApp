@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PaciApp</string>
+
+    <string-array name="menu">
+        <item>Edit</item>
+        <item>Delete</item>
+        <item>Send</item>
+    </string-array>
+    <string-array name="etage">
+        <item>2</item>
+        <item>4</item>
+    </string-array>
+
+
+
+</resources>
