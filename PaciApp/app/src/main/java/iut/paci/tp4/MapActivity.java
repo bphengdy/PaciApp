@@ -66,7 +66,7 @@ import iut.paci.shortestpath.Node;
 public class MapActivity extends AppCompatActivity {
 
     MapView mapView; TileCache tileCache;  File file; TileRendererLayer tileRendererLayer;
-    String URLMap;
+    String URLMap; boolean markerOnMap = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,18 +106,18 @@ public class MapActivity extends AppCompatActivity {
         MapDataStore mapDataStore= new MapFile(file);
         Drawable drawable;
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
-            drawable= getDrawable(R.drawable.marqueur);
+            drawable= getDrawable(R.drawable.marqueur2);
         else
-            drawable=getResources().getDrawable(R.drawable.marqueur);
+            drawable=getResources().getDrawable(R.drawable.marqueur2);
         final Bitmap bitmap= AndroidGraphicFactory.convertToBitmap(drawable);
         bitmap.scaleTo(60, 100);
+        final ArrayList<DeviceMarker> listMarkers = InitMarqueur(); //Récupération des marqueurs de la BDD
         Bundle bundleObject = getIntent().getExtras();
         ArrayList<Node> listNode = (ArrayList<Node>) bundleObject.getSerializable("listNode"); //Récup la liste de Node qui forme le chemin
         tileRendererLayer= new TileRendererLayer(tileCache,
                 mapDataStore,mapView.getModel().mapViewPosition, false, true, AndroidGraphicFactory.INSTANCE)
         {
             public boolean onLongPress(LatLong geoPoint, Point viewPosition, Point tapPoint) {
-                final AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(MapActivity.this);
                 WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);
                 final String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
 
@@ -127,8 +127,15 @@ public class MapActivity extends AppCompatActivity {
                         new Device(Build.MODEL,ip),
                         MapActivity.this
                 );
-
-                addMarqueurBDD(marker);
+                if(markerOnMap)
+                {
+                    updateMarqueurBDD(marker);
+                }
+                else
+                {
+                    addMarqueurBDD(marker); //ajout du marqueur dans la BDD
+                    markerOnMap = true;
+                }
 
 
                 //    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -149,10 +156,10 @@ public class MapActivity extends AppCompatActivity {
                 getApplicationContext());
         mapView.getLayerManager().getLayers().add(marker);*/
 
-        ArrayList<DeviceMarker> listMarkers = InitMarqueur(); //Récupération des marqueurs de la BDD
+
         for(DeviceMarker dm : listMarkers) //Ajout des marqueurs dans la mapView
         {
-            Log.i("DM","IP marqueur : "+String.valueOf(dm.getDev().getIp()));
+            Log.i("InitMarqueur","IP marqueur : "+String.valueOf(dm.getDev().getIp()));
             mapView.getLayerManager().getLayers().add(dm);
         }
         //Creation chemin
@@ -228,10 +235,23 @@ public class MapActivity extends AppCompatActivity {
                 {
                     JSONObject json_data = jArray.getJSONObject(i);
                     Drawable drawable;
-                    if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
-                        drawable= getDrawable(R.drawable.marqueur);
+                    WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);
+                    final String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+                    if(json_data.getString("ip").equals(ip))
+                    {
+                        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
+                            drawable= getDrawable(R.drawable.marqueur2);
+                        else
+                            drawable=getResources().getDrawable(R.drawable.marqueur2);
+                    }
                     else
-                        drawable=getResources().getDrawable(R.drawable.marqueur);
+                    {
+                        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP)
+                            drawable= getDrawable(R.drawable.marqueur);
+                        else
+                            drawable=getResources().getDrawable(R.drawable.marqueur);
+                    }
+
                     final Bitmap bitmap= AndroidGraphicFactory.convertToBitmap(drawable);
                     bitmap.scaleTo(60, 100);
 
@@ -267,10 +287,11 @@ public class MapActivity extends AppCompatActivity {
         nameValuePairs.add(new BasicNameValuePair("ip", dm.getDev().getIp()));
         nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(dm.getLatLong().latitude)));
         nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(dm.getLatLong().longitude)));
-        InputStream is=null;
+        Log.i("BDD","Insert ip : "+dm.getDev().getIp());
         try
         {
             HttpClient httpclient = new DefaultHttpClient(); //Instanciation HttpClient
+         //   HttpPost httppost = new HttpPost("http://bphengdy.esy.es/InsertIntoMarqueur.php"); //Req. HttpPost vers le fichier
             HttpPost httppost = new HttpPost("http://bphengdy.esy.es/InsertIntoMarqueur.php"); //Req. HttpPost vers le fichier
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             httpclient.execute(httppost);
@@ -280,13 +301,11 @@ public class MapActivity extends AppCompatActivity {
             Log.e("log_tag", "Error in http connection "+e.toString());
         }
     }
-
     //Delete marqueur by IP
     public void deleteMarqueurBDD(String ip) {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); //ArrayList Clé-Valeur
         nameValuePairs.add(new BasicNameValuePair("ip",String.valueOf(ip))); //Ajout de l'ip dans l'ArrayList
-        InputStream is=null;
-        Log.i("DM","Delete : "+String.valueOf(ip));
+        Log.i("DM", "Delete : " + String.valueOf(ip));
         try
         {
             HttpClient httpclient = new DefaultHttpClient(); //Instanciation HttpClient
@@ -299,6 +318,26 @@ public class MapActivity extends AppCompatActivity {
             Log.e("log_tag", "Error in http connection "+e.toString());
         }
     }
+    //Update Marker
+    public void updateMarqueurBDD(DeviceMarker dm) {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(); //ArrayList Clé-Valeur
+        nameValuePairs.add(new BasicNameValuePair("ip", dm.getDev().getIp())); //Ajout de l'ip dans l'ArrayList
+        nameValuePairs.add(new BasicNameValuePair("appareil", dm.getDev().getNom()));
+        nameValuePairs.add(new BasicNameValuePair("latitude", Double.toString(dm.getLatLong().latitude)));
+        nameValuePairs.add(new BasicNameValuePair("longitude", Double.toString(dm.getLatLong().longitude)));
 
+        Log.i("BDD", "Update ip : " + String.valueOf(dm.getDev().getIp()));
+        try
+        {
+            HttpClient httpclient = new DefaultHttpClient(); //Instanciation HttpClient
+            HttpPost httppost = new HttpPost("http://bphengdy.esy.es/UpdateMarqueur.php"); //Req. HttpPost vers le fichier extérieur
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpclient.execute(httppost);
+        }
+        catch(Exception e)
+        {
+            Log.e("log_tag", "Error in http connection "+e.toString());
+        }
+    }
 
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -57,6 +58,7 @@ public class TwoNodesActivity extends Activity {
 	
 	public void search(View v){
 
+
 		Intent intent = new Intent(getApplicationContext(),MapActivity.class);
 /*		intent.putExtra("depart", spinner1.getSelectedItem().toString());
 		intent.putExtra("arrivee", spinner2.getSelectedItem().toString());*/
@@ -64,18 +66,24 @@ public class TwoNodesActivity extends Activity {
 		Node A =routeGraph.getNodeByName(spinner1.getSelectedItem().toString()); //Depart
 		Node B =routeGraph.getNodeByName(spinner2.getSelectedItem().toString()); //Arrivée
 
-		ArrayList<Node> chemin = routeGraph.shorterPath(A, B); //Fonction pour trouver le chemin le + court
+		if(A!=B)
+		{
+			ArrayList<Node> chemin = routeGraph.shorterPath(A, B); //Fonction pour trouver le chemin le + court
 
-		Intent intent1 = getIntent();
-		String numEtage = intent1.getStringExtra("numEtage"); //getNumEtage
-		intent.putExtra("numEtage",numEtage); //SetEtage
+			Intent intent1 = getIntent();
+			String numEtage = intent1.getStringExtra("numEtage"); //getNumEtage
+			intent.putExtra("numEtage",numEtage); //SetEtage
 
-		Bundle bundleObject = new Bundle();
-		bundleObject.putSerializable("listNode", chemin); //Clé valeur de la liste de node a envoyer
-		intent.putExtras(bundleObject);
+			Bundle bundleObject = new Bundle();
+			bundleObject.putSerializable("listNode", chemin); //Clé valeur de la liste de node a envoyer
+			intent.putExtras(bundleObject);
 
-	//	new MapActivity().DessinerChemin(chemin);
-		startActivity(intent);
+			//	new MapActivity().DessinerChemin(chemin);
+			startActivity(intent);
+		}
+		else
+			Snackbar.make(v,"Départ et arrivé identique !",Snackbar.LENGTH_SHORT).show();
+
 	}
 
 }

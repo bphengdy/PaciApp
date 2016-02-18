@@ -27,6 +27,17 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="3"
+        android:id="@+id/btn_3"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_weight="0.08"
+        android:textSize="30dp"
+        android:onClick="gotoEtage" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="4"
         android:id="@+id/btn_4"
         android:layout_gravity="center_horizontal"

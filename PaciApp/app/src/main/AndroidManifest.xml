@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="iut.paci.tp4.TwoNodesActivity" android:hardwareAccelerated="false">
+        <activity android:name="iut.paci.paciapp.LoginActivity" android:hardwareAccelerated="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,8 +22,8 @@
         <activity android:name=".ChatActivity"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name="iut.paci.tp4.MapActivity"/>
-        <activity android:name="iut.paci.paciapp.LoginActivity"/>
         <activity android:name="iut.paci.tp4.EtageActivity"/>
+        <activity android:name="iut.paci.tp4.TwoNodesActivity"/>
     </application>
 
 </manifest>
